@@ -1,31 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAppContext } from '../context/AppContext';
 import './styles/weather.css';
 
-// Define the shape of the weather data you expect from the API
-interface WeatherData {
-    city: string;
-    description: string;
-    temperature: number;
-    forecast: { time: string; temperature: number; icon: string }[];
-}
-
 const Weather: React.FC = () => {
     const { selectedCity } = useAppContext();
-    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/weather?city=${selectedCity}`)
-            .then(response => response.json())
-            .then(data => {
-                setWeatherData(data);
-            })
-            .catch(error => console.error('Error fetching weather data:', error));
-    }, [selectedCity]);
-
-    if (!weatherData) {
-        return <div>Loading...</div>;
-    }
+    const weatherData = {
+        city: selectedCity,
+        description: 'Sunny',
+        temperature: 25,
+        forecast: [
+            { time: '6:00 AM', temperature: 20, icon: '☀️' },
+            { time: '9:00 AM', temperature: 22, icon: '☀️' },
+            { time: '12:00 PM', temperature: 25, icon: '☀️' },
+            { time: '3:00 PM', temperature: 27, icon: '☀️' },
+            { time: '6:00 PM', temperature: 26, icon: '☀️' },
+            { time: '9:00 PM', temperature: 22, icon: '🌙' },
+        ],
+    };
 
     return (
         <div className="weather">
